@@ -26,6 +26,4 @@ class MQueueApplicationTests(@Autowired private val eventDao: EventDao) {
 		assertEquals(Status.DONE, savedEvent.status)
 	}
 
-
-
 }

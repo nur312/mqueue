@@ -32,9 +32,3 @@ spring:
       qos-enabled: true
       receive-timeout: 1000
       time-to-live: 36000
-
-
-
-  jackson:
-    serialization:
-      writedates-as-timestamps: false

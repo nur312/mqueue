@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import ru.fintech.mqueue.config.ActiveMQConfig
 import ru.fintech.mqueue.entity.Event
-import ru.fintech.mqueue.entity.toDto
 import ru.fintech.mqueue.service.EventService
 import java.util.concurrent.TimeUnit
 
@@ -27,7 +26,7 @@ class EventProducer(
     private fun sendEventToMq(event: Event): Event {
         return try {
 
-            jmsTemplate.convertAndSend(ActiveMQConfig.ORDER_QUEUE, event.toDto())
+            jmsTemplate.convertAndSend(ActiveMQConfig.ORDER_QUEUE, event)
 
             eventService.setInProcessAndSave(event)
         } catch (_: JmsException) {

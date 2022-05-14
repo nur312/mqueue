@@ -1,7 +1,6 @@
 package ru.fintech.mqueue.entity
 
 import org.hibernate.Hibernate
-import ru.fintech.mqueue.dto.EventDto
 import javax.persistence.*
 
 enum class Type {
@@ -44,5 +43,3 @@ data class Event(
         return this::class.simpleName + "(id = $id , type = $type , body = $body , status = $status )"
     }
 }
-
-fun Event.toDto() = EventDto(id, type, body, status)

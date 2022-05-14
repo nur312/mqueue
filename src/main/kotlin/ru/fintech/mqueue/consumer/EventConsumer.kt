@@ -6,8 +6,7 @@ import org.springframework.jms.annotation.JmsListener
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 import ru.fintech.mqueue.config.ActiveMQConfig.Companion.ORDER_QUEUE
-import ru.fintech.mqueue.dto.EventDto
-import ru.fintech.mqueue.dto.toEntity
+import ru.fintech.mqueue.entity.Event
 import ru.fintech.mqueue.service.EventService
 import ru.fintech.mqueue.service.communication.CommunicationService
 
@@ -19,20 +18,20 @@ class EventConsumer(
 
     @JmsListener(destination = ORDER_QUEUE)
     fun receiveMessage(
-        @Payload event: EventDto
+        @Payload event: Event
     ) {
 
         try {
             sendMessage(event)
-            eventService.setDoneAndSave(event.toEntity())
+            eventService.setDoneAndSave(event)
 
         } catch (_: BeansException) {
 
-            eventService.setErrorAndSave(event.toEntity())
+            eventService.setErrorAndSave(event)
         }
     }
 
-    private fun sendMessage(event: EventDto) {
+    private fun sendMessage(event: Event) {
 
         val communicationService = context.getBean("${event.type.name}_SERVICE") as CommunicationService
         communicationService.sendMessage(event.body)
